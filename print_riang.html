@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متجر الأختام - جميع أنواع الأختام الاحترافية</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1a365d;
+            --secondary-color: #f6ad55;
+            --accent-color: #e9b213;
+            --light-color: #f8f9fa;
+            --dark-color: #2d3748;
+            --gray-color: #a0aec0;
+            --success-color: #38a169;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', 'Tajawal', sans-serif;
+        }
+        
+        body {
+            color: var(--dark-color);
+            line-height: 1.6;
+            background-color: #f5f7fa;
+            padding-top: 80px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* أنماط الشريط العلوي */
+        nav {
+            background-color: #fff;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            padding: 15px 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-logo img {
+            height: 50px;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-item {
+            margin-left: 25px;
+        }
+        
+        .nav-link {
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 600;
+            transition: color 0.3s;
+            position: relative;
+        }
+        
+        .nav-link:hover {
+            color: var(--primary-color);
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            right: 0;
+            background-color: var(--primary-color);
+            transition: width 0.3s;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .hamburger {
+            display: none;
+            cursor: pointer;
+        }
+        
+        .bar {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px auto;
+            background-color: var(--dark-color);
+            transition: all 0.3s;
+        }
+        
+        /* أنماط رأس الصفحة */
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #2c5282 100%);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .page-title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .page-description {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        /* أنماط الأقسام */
+        .section-title {
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 50px;
+            color: var(--primary-color);
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--secondary-color);
+        }
+        
+        /* أنماط الفلاتر */
+        .filters-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+        
+        .filters-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        
+        .filter-title {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+        }
+        
+        .filter-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .filter-group {
+            margin-bottom: 15px;
+        }
+        
+        .filter-group-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--dark-color);
+        }
+        
+        .filter-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .filter-tag {
+            padding: 5px 15px;
+            background: var(--light-color);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+        
+        .filter-tag.active, .filter-tag:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        /* أنماط المنتجات */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .product-image {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8f9fa;
+        }
+        
+        .product-image img {
+            max-width: 80%;
+            max-height: 80%;
+            object-fit: contain;
+            transition: transform 0.5s;
+        }
+        
+        .product-card:hover .product-image img {
+            transform: scale(1.1);
+        }
+        
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--secondary-color);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .product-content {
+            padding: 20px;
+        }
+        
+        .product-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+        
+        .product-description {
+            color: var(--dark-color);
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            min-height: 40px;
+        }
+        
+        .product-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .product-price {
+            font-weight: bold;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+        }
+        
+        .product-actions {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            flex: 1;
+            margin-right: 10px;
+        }
+        
+        .btn-primary:hover {
+            background-color: #2c5282;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
+        
+        .btn-outline:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        /* أنماط الفوتر */
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 60px 0 20px;
+        }
+        
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-logo img {
+            height: 50px;
+            margin-bottom: 20px;
+            filter: brightness(0) invert(1);
+        }
+        
+        .footer-about p {
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
+        
+        .footer-heading {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-heading::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--secondary-color);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+        
+        .footer-links a:hover {
+            opacity: 1;
+            color: var(--secondary-color);
+        }
+        
+        .footer-contact-item {
+            display: flex;
+            margin-bottom: 15px;
+        }
+        
+        .footer-contact-icon {
+            margin-left: 10px;
+            color: var(--secondary-color);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+        
+        /* أنماط الاستجابة للشاشات الصغيرة */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+            
+            .hamburger.active .bar:nth-child(2) {
+                opacity: 0;
+            }
+            
+            .hamburger.active .bar:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+            
+            .hamburger.active .bar:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+            
+            .nav-menu {
+                position: fixed;
+                right: -100%;
+                top: 80px;
+                flex-direction: column;
+                background-color: white;
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+                padding: 20px 0;
+            }
+            
+            .nav-menu.active {
+                right: 0;
+            }
+            
+            .nav-item {
+                margin: 15px 0;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filters-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+    <!-- روابط خطوط Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- شريط التنقل -->
+    <nav>
+        <div class="container nav-container">
+            <div class="nav-logo">
+                <img src="https://via.placeholder.com/150x50/1a365d/ffffff?text=ختم+برو" alt="شعار متجر الأختام">
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link">الرئيسية</a></li>
+                <li class="nav-item"><a href="products.html" class="nav-link">جميع المنتجات</a></li>
+                <li class="nav-item"><a href="categories.html" class="nav-link">الفئات</a></li>
+                <li class="nav-item"><a href="about.html" class="nav-link">عن المتجر</a></li>
+                <li class="nav-item"><a href="contact.html" class="nav-link">اتصل بنا</a></li>
+                <li class="nav-item"><a href="cart.html" class="btn btn-primary">سلة المشتريات</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- رأس الصفحة -->
+    <div class="page-header">
+        <div class="container">
+            <h1 class="page-title">الأختام الاحترافية</h1>
+            <p class="page-description">اكتشف مجموعتنا الكاملة من الأختام عالية الجودة بمختلف الأشكال والأحجام لتناسب جميع احتياجاتك</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- قسم التصفية -->
+        <div class="filters-section">
+            <div class="filters-header">
+                <h2 class="filter-title">تصفية المنتجات</h2>
+            </div>
+            
+            <div class="filter-options">
+                <div class="filter-group">
+                    <div class="filter-group-title">النوع</div>
+                    <div class="filter-tags">
+                        <div class="filter-tag active">الكل</div>
+                        <div class="filter-tag">أولومانيك</div>
+                        <div class="filter-tag">ليزر</div>
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <div class="filter-group-title">الشكل</div>
+                    <div class="filter-tags">
+                        <div class="filter-tag active">الكل</div>
+                        <div class="filter-tag">دائري</div>
+                        <div class="filter-tag">مستطيل</div>
+                        <div class="filter-tag">بيضاوي</div>
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <div class="filter-group-title">الحجم</div>
+                    <div class="filter-tags">
+                        <div class="filter-tag active">الكل</div>
+                        <div class="filter-tag">3 سم</div>
+                        <div class="filter-tag">4 سم</div>
+                        <div class="filter-tag">5 سم</div>
+                        <div class="filter-tag">3.5 سم</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- قسم أختام أولومانيك -->
+        <section id="olumanic-seals">
+            <h2 class="section-title">أختام أولومانيك</h2>
+            
+            <div class="products-grid">
+                <!-- ختم أولومانيك بيضاوي -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://via.placeholder.com/300x200/1a365d/ffffff?text=ختم+أولومانيك+بيضاوي" alt="ختم أولومانيك بيضاوي">
+                        <div class="product-badge">الأكثر مبيعاً</div>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">ختم أولومانيك بيضاوي (3.5 سم)</h3>
+                        <p class="product-description">ختم أولومانيك عالي الجودة بشكل بيضاوي أنيق، مثالي للاستخدامات الرسمية</p>
+                        <div class="product-meta">
+                            <div class="product-price">75 ريال</div>
+                        </div>
+                        <div class="product-actions">
+                            <a href="order.html" class="btn btn-primary">اطلب الآن</a>
+                            <a href="product-detail.html" class="btn btn-outline">التفاصيل</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ختم أولومانيك دائري -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://via.placeholder.com/300x200/2d3748/ffffff?text=ختم+أولومانيك+دائري" alt="ختم أولومانيك دائري">
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">ختم أولومانيك دائري (4 سم)</h3>
+                        <p class="product-description">ختم دائري كلاسيكي بتصميم أنيق، يناسب جميع الاستخدامات المكتبية</p>
+                        <div class="product-meta">
+                            <div class="product-price">70 ريال</div>
+                        </div>
+                        <div class="product-actions">
+                            <a href="order.html" class="btn btn-primary">اطلب الآن</a>
+                            <a href="product-detail.html" class="btn btn-outline">التفاصيل</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ختم أولومانيك مستطيل -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://via.placeholder.com/300x200/38a169/ffffff?text=ختم+أولومانيك+مستطيل" alt="ختم أولومانيك مستطيل">
+                        <div class="product-badge">جديد</div>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">ختم أولومانيك مستطيل (5 سم)</h3>
+                        <p class="product-description">ختم مستطيل بمقاس كبير، مثالي للعناوين والشعارات الطويلة</p>
+                        <div class="product-meta">
+                            <div class="product-price">85 ريال</div>
+                        </div>
+                        <div class="product-actions">
+                            <a href="order.html" class="btn btn-primary">اطلب الآن</a>
+                            <a href="product-detail.html" class="btn btn-outline">التفاصيل</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ختم أولومانيك بيضاوي صغير -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://via.placeholder.com/300x200/e53e3e/ffffff?text=ختم+أولومانيك+صغير" alt="ختم أولومانيك بيضاوي صغير">
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">ختم أولومانيك بيضاوي (3 سم)</h3>
+                        <p class="product-description">ختم بيضاوي صغير الحجم، مناسب للأختام الشخصية والاستخدام الفردي</p>
+                        <div class="product-meta">
+                            <div class="product-price">60 ريال</div>
+                        </div>
+                        <div class="product-actions">
+                            <a href="order.html" class="btn btn-primary">اطلب الآن</a>
+                            <a href="product-detail.html" class="btn btn-outline">التفاصيل</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- قسم أختام ليزر -->
+        <section id="laser-seals">
+            <h2 class="section-title">أختام ليزر</h2>
+            
+            <div class="products-grid">
+                <!-- ختم ليزر بيضاوي -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://via.placeholder.com/300x200/ed8936/ffffff?text=ختم+ليزر+بيضاوي" alt="ختم ليزر بيضاوي">
+                        <div class="product-badge">عرض خاص</div>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">ختم ليزر بيضاوي (3.5 سم)</h3>
+                        <p class="product-description">ختم ليزر عالي الدقة بشكل بيضاوي، بتقنية متطورة ودقة فائقة</p>
+                        <div class="product-meta">
+                            <div class="product-price">90 ريال</div>
+                        </div>
+                        <div class="product-actions">
+                            <a href="order.html" class="btn btn-primary">اطلب الآن</a>
+                            <a href="product-detail.html" class="btn btn-outline">التفاصيل</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ختم ليزر دائري -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://via.placeholder.com/300x200/38b2ac/ffffff?text=ختم+ليزر+دائري" alt="ختم ليزر دائري">
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">ختم ليزر دائري (4 سم)</h3>
+                        <p class="product-description">ختم ليزر دائري بتصميم أنيق وجودة عالية، مناسب للمؤسسات والشركات</p>
+                        <div class="product-meta">
+                            <div class="product-price">95 ريال</div>
+                        </div>
+                        <div class="product-actions">
+                            <a href="order.html" class="btn btn-primary">اطلب الآن</a>
+                            <a href="product-detail.html" class="btn btn-outline">التفاصيل</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ختم ليزر مستطيل -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://via.placeholder.com/300x200/805ad5/ffffff?text=ختم+ليزر+مستطيل" alt="ختم ليزر مستطيل">
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">ختم ليزر مستطيل (5 سم)</h3>
+                        <p class="product-description">ختم ليزر مستطيل الشكل، مثالي للعناوين الطويلة والشعارات المعقدة</p>
+                        <div class="product-meta">
+                            <div class="product-price">110 ريال</div>
+                        </div>
+                        <div class="product-actions">
+                            <a href="order.html" class="btn btn-primary">اطلب الآن</a>
+                            <a href="product-detail.html" class="btn btn-outline">التفاصيل</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ختم ليزر بيضاوي صغير -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://via.placeholder.com/300x200/1a365d/ffffff?text=ختم+ليزر+رسم" alt="ختم ليزر بيضاوي صغير">
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">ختم ليزر بيضاوي (3 سم)</h3>
+                        <p class="product-description">ختم ليزر صغير الحجم، مناسب للأختام الشخصية والاستخدامات الفردية</p>
+                        <div class="product-meta">
+                            <div class="product-price">80 ريal</div>
+                        </div>
+                        <div class="product-actions">
+                            <a href="order.html" class="btn btn-primary">اطلب الآن</a>
+                            <a href="product-detail.html" class="btn btn-outline">التفاصيل</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- الفوتر -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-about">
+                    <div class="footer-logo">
+                        <img src="https://via.placeholder.com/150x50/ffffff/1a365d?text=ختم+برو" alt="شعار متجر الأختام">
+                    </div>
+                    <p>متخصصون في تصنيع وتوريد جميع أنواع الأختام عالية الجودة منذ عام 2005. نقدم منتجات احترافية بأسعار تنافسية.</p>
+                    <div class="social-links">
+                        <a href="#" style="color: white; margin-left: 15px; font-size: 1.2rem;"><i class="fab fa-twitter"></i></a>
+                        <a href="#" style="color: white; margin-left: 15px; font-size: 1.2rem;"><i class="fab fa-instagram"></i></a>
+                        <a href="#" style="color: white; margin-left: 15px; font-size: 1.2rem;"><i class="fab fa-facebook"></i></a>
+                        <a href="#" style="color: white; margin-left: 15px; font-size: 1.2rem;"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h3 class="footer-heading">روابط سريعة</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">الرئيسية</a></li>
+                        <li><a href="products.html">جميع المنتجات</a></li>
+                        <li><a href="categories.html">الفئات</a></li>
+                        <li><a href="about.html">عن المتجر</a></li>
+                        <li><a href="contact.html">اتصل بنا</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h3 class="footer-heading">فئات المنتجات</h3>
+                    <ul class="footer-links">
+                        <li><a href="#olumanic-seals">أختام أولومانيك</a></li>
+                        <li><a href="#laser-seals">أختام ليزر</a></li>
+                        <li><a href="#">أختام تاريخ</a></li>
+                        <li><a href="#">أختام خشبية</a></li>
+                        <li><a href="#">أختام مطاطية</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-contact">
+                    <h3 class="footer-heading">معلومات التواصل</h3>
+                    <div class="footer-contact-item">
+                        <i class="fas fa-map-marker-alt footer-contact-icon"></i>
+                        <span>الرياض، المملكة العربية السعودية</span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <i class="fas fa-phone footer-contact-icon"></i>
+                        <span>+966 11 123 4567</span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <i class="fas fa-envelope footer-contact-icon"></i>
+                        <span>info@khatem-pro.com</span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <i class="fas fa-clock footer-contact-icon"></i>
+                        <span>الأحد - الخميس: 8 ص - 10 م</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>© 2023 متجر ختم برو. جميع الحقوق محفوظة</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript للتحكم في قائمة الهامبرجر
+        const hamburger = document.querySelector(".hamburger");
+        const navMenu = document.querySelector(".nav-menu");
+        
+        hamburger.addEventListener("click", () => {
+            hamburger.classList.toggle("active");
+            navMenu.classList.toggle("active");
+        });
+        
+        document.querySelectorAll(".nav-link").forEach(n => n.addEventListener("click", () => {
+            hamburger.classList.remove("active");
+            navMenu.classList.remove("active");
+        }));
+        
+        // فلترة المنتجات
+        const filterTags = document.querySelectorAll(".filter-tag");
+        
+        filterTags.forEach(tag => {
+            tag.addEventListener("click", () => {
+                // إزالة النشاط من جميع علامات التصفية في نفس المجموعة
+                const parentGroup = tag.closest(".filter-group");
+                parentGroup.querySelectorAll(".filter-tag").forEach(t => t.classList.remove("active"));
+                
+                // إضافة النشاط للعلامة المختارة
+                tag.classList.add("active");
+                
+                // هنا يمكن إضافة كود التصفية الفعلي
+                filterProducts();
+            });
+        });
+        
+        // وظائف التصفية
+        function filterProducts() {
+            const activeType = document.querySelector('.filter-group:first-child .filter-tag.active').textContent;
+            const activeShape = document.querySelector('.filter-group:nth-child(2) .filter-tag.active').textContent;
+            const activeSize = document.querySelector('.filter-group:last-child .filter-tag.active').textContent;
+            
+            console.log("تصفية حسب: ", activeType, activeShape, activeSize);
+            // كود التصفية الحقيقي سيعتمد على البيانات الحقيقية للمنتجات
+        }
+    </script>
+</body>
+</html>
